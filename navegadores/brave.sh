@@ -12,7 +12,7 @@ if [ "$file" = 0 ];then
 	rm -rf brave-browser-${version}-linux-amd64.zip
 	cp -rp Brave /opt/
 	rm -rf Brave
-	clear;echo "Se Instalo Brave Browser :D"
+	clear;echo "Instalación de Brave Browser completada! :D"
 
 cat << EOF > /usr/share/applications/brave.desktop
 [Desktop Entry]
@@ -35,9 +35,9 @@ elif [ "$version" != $(/opt/Brave/brave --version | cut -d ' ' -f3 | cut -c5-) ]
 	rm -rf brave-browser-${version}-linux-amd64.zip
         cp -rp Brave /opt/
 	rm -rf Brave
-	clear;echo "Se actualizo Brave Browser a la version: $version"
+	clear;echo "Se actualizó Brave Browser a la versión: $version"
 
 else
-	clear;echo "Ya tienes la ultima version: $version"
+	clear;echo "Ya tienes la ultima versión: $version"
 fi
 
