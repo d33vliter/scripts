@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 clear
-version=$(curl -s https://brave.com/latest/ | grep 'release-notes' | grep -Ev 'Windows Only' | head -1 | cut -d '>' -f3 | cut -d '<' -f1 | sed 's/v//g')
+version=$(curl https://brave-browser-downloads.s3.brave.com/latest/release-linux-x64.version)
 file=$(ls /opt/ 2> /dev/null | grep 'Brave' | wc -l)
 
 
