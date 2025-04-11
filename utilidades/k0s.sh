@@ -12,7 +12,7 @@ sudo echo '#!/bin/sh' > ${ruta}/run
 sudo echo 'exec /usr/local/bin/k0s controller --single' >> ${ruta}/run #para usar todo en 1 nodo si eres pobre
 sudo chmod +x ${ruta}/run
 
-sudo cp /var/lib/k0s/pki/admin.conf ~/admin.conf
-echo 'export KUBECONFIG=~/admin.conf' >> ~/.bashrc
+sudo cp /var/lib/k0s/pki/admin.conf ~/.admin.conf
+echo 'export KUBECONFIG=~/.admin.conf' >> ~/.bashrc
 
 source .bashrc
