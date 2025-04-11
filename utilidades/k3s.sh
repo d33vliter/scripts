@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
 version=$(curl -sL https://api.github.com/repos/k3s-io/k3s/tags |jq -r ".[].name" | head -1)
 svc_path='/etc/sv/k3s'
 

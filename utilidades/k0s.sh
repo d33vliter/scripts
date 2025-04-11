@@ -1,18 +1,50 @@
 #!/usr/bin/env bash
 
+set -euo pipefail  # buena práctica para scripts seguros
+
 ruta='/etc/sv/k0s'
 
-curl -sSf https://get.k0s.sh | sudo sh #instalar k0s
+# Instalar k0s
+echo "[+] Instalando k0s..."
+curl -sSf https://get.k0s.sh | sudo sh
 
-sudo mkir $ruta
+# Crear directorio del servicio
+echo "[+] Creando directorio para servicio runit..."
+sudo mkdir -p "$ruta"
 
-sudo echo '#!/bin/sh' > ${ruta}/run 
-#sudo echo 'exec /usr/local/bin/k0s controller --enable-worker' >> ${ruta}/run #para multiples nodos
+# Crear script de inicio runit
+echo "[+] Escribiendo script runit..."
 
-sudo echo 'exec /usr/local/bin/k0s controller --single' >> ${ruta}/run #para usar todo en 1 nodo si eres pobre
-sudo chmod +x ${ruta}/run
+cat > "${ruta}/run" <<EOF
+#!/bin/sh
+exec /usr/local/bin/k0s controller --single
+EOF
 
-sudo cp /var/lib/k0s/pki/admin.conf ~/.admin.conf
-echo 'export KUBECONFIG=~/.admin.conf' >> ~/.bashrc
+# Si prefieres usar múltiples nodos, descomenta esta línea y comenta la de arriba:
+# exec /usr/local/bin/k0s controller --enable-worker
 
-source .bashrc
+sudo chmod +x "${ruta}/run"
+
+# Enlace simbólico (si no existe) para que runit lo active
+if [ ! -L /var/service/k0s ]; then
+  echo "[+] Activando servicio runit..."
+  sudo ln -s "$ruta" /var/service/
+fi
+
+# Copiar y exportar kubeconfig
+echo "[+] Configurando KUBECONFIG..."
+cp /var/lib/k0s/pki/admin.conf ~/.admin.conf
+
+# Agregar al bashrc solo si no existe
+if ! grep -q 'KUBECONFIG=~/.admin.conf' ~/.bashrc; then
+  echo 'export KUBECONFIG=~/.admin.conf' >> ~/.bashrc
+  echo '[✓] Variable KUBECONFIG agregada a ~/.bashrc'
+else
+  echo '[i] KUBECONFIG ya estaba presente en ~/.bashrc'
+fi
+
+# Aplicar cambios de entorno
+export KUBECONFIG=~/.admin.conf
+source ~/.bashrc
+
+echo "[✓] k0s instalado y configurado correctamente."
