@@ -12,6 +12,7 @@ rm /tmp/k3s
 echo "[+] Configurando servicio runit...espere 5 segundos para que genere el /etc/rancher"
 sudo mkdir -p "$svc_path"
 
+
 sudo tee "${svc_path}/run" > /dev/null <<EOF
 #!/bin/sh
 exec /usr/local/bin/k3s server
