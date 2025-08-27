@@ -1,11 +1,10 @@
 #!/bin/bash
-
+#sirve para ofuzcar tu script sh, compilado en go xdxdxd.
 if [ -z "$1" ]; then
         tmp_script="/tmp/script.sh"
         touch $tmp_script
         echo '#!/bin/bash' > $tmp_script
         vim $tmp_script
-        te
         script=$(cat $tmp_script)
 
 cat > main.go <<EOF
