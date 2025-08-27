@@ -1,5 +1,5 @@
 #!/bin/bash
-#sirve para ofuzcar tu script sh, compilado en go xdxdxd.
+
 if [ -z "$1" ]; then
         tmp_script="/tmp/script.sh"
         touch $tmp_script
@@ -37,7 +37,9 @@ EOF
 
 go build main.go
 
-yes | rm $tmp_script
+rm main.go
+
+rm $tmp_script
 
 elif [ -n "$1" ]; then
         script=$(cat $1)
@@ -72,4 +74,7 @@ func main() {
 EOF
 
 go build $nombre
+
+rm $nombre.go
+
 fi
