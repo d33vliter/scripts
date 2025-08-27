@@ -2,9 +2,10 @@
 
 if [ -z "$1" ]; then
         tmp_script="/tmp/script.sh"
-        touch $tmp_script
-        echo '#!/bin/bash' > $tmp_script
         vim $tmp_script
+        if [ ! -f "$tmp_script" ]; then
+                exit 1
+        fi
         script=$(cat $tmp_script)
 
 cat > main.go <<EOF
