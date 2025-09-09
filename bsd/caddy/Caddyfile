@@ -1,0 +1,22 @@
+*.test.com {
+        tls {
+                dns porkbun {
+                        api_key "pk1_ejemplo"
+                        api_secret_key "sk1_ejemplo"
+                }
+        }
+
+        @adguard host adguard.test.com
+        handle @adguard {
+                reverse_proxy 192.168.1.220:80
+        }
+
+        @fotos host fotos.test.com
+        handle @fotos {
+                reverse_proxy 192.168.1.219:2283
+        }
+
+        handle {
+                abort
+        }
+}
