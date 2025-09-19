@@ -1,22 +1,47 @@
 *.test.com {
-        tls {
-                dns porkbun {
-                        api_key "pk1_ejemplo"
-                        api_secret_key "sk1_ejemplo"
-                }
-        }
+    header {
+        -Server         # elimina header Server
+        -X-Powered-By   # elimina X-Powered-By
+        Server "offi_awebao"  # añade un header genérico al server
+    }
 
-        @adguard host adguard.test.com
-        handle @adguard {
-                reverse_proxy 192.168.1.220:80
+    tls {
+        dns porkbun {
+            api_key "pk1_xdxdxdxdxdxdx"
+            api_secret_key "sk1_xdxdxddxdxdxdxdxdx"
         }
+    }
 
-        @fotos host fotos.test.com
-        handle @fotos {
-                reverse_proxy 192.168.1.219:2283
-        }
+    @adguard host adguard.test.com
+    handle @adguard {
+        reverse_proxy 192.168.1.220:80
+	header -Via
+    }
 
-        handle {
-                abort
-        }
+    @fotos host fotos.test.com
+    handle @fotos {
+        reverse_proxy 192.168.1.219:2283
+	header -Via
+    }
+
+    @n8n host n8n.test.com
+    handle @n8n {
+        reverse_proxy 192.168.1.219:5678
+	header -Via
+    }
+
+    handle {
+        abort
+    }
+}
+
+
+test2.com {
+    header {
+        -Server
+        -X-Powered-By
+        Server "ofi_awebao"
+    }
+    reverse_proxy 192.168.1.219:5678
+    header -Via
 }
